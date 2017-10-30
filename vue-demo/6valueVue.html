@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>6valueVue</title>
+
+    <script src="js/jquery.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            vm.toggle === vm.a  // 当选中时
+            vm.toggle === vm.b  // 当没有选中时
+        });
+    </script>
+
+</head>
+<body>
+
+<div id="show">
+
+    <!--绑定value-->
+    <!-- 当选中时，`picked` 为字符串 "a" -->
+    <input type="radio" v-model="picked" value="a">
+    <!-- `toggle` 为 true 或 false -->
+    <input type="checkbox" v-model="toggle">
+    <!-- 当选中时，`selected` 为字符串 "abc" -->
+    <select v-model="selected">
+        <option value="abc">ABC</option>
+    </select>
+
+    <!--复选框-->
+    <input
+        type="checkbox"
+        v-model="toggle"
+        v-bind:true-value="a"
+        v-bind:false-value="b"
+        @click="showSomething"
+    >
+</div>
+
+</body>
+</html>

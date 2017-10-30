@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>my tree</title>
+
+    <style type="text/css">
+        body {
+            font-family: Menlo, Consolas, monospace;
+            color: #444;
+        }
+        .item {
+            cursor: pointer;
+        }
+        .bold {
+            font-weight: bold;
+        }
+        ul {
+            padding-left: 1em;
+            line-height: 1.5em;
+            list-style-type: dot;
+        }
+    </style>
+
+</head>
+<body>
+
+    <p>(点击项目进行展开)</p>
+    <ul id="demo">
+        <item class="item" :model="treeData"></item>
+    </ul>
+
+
+    <!--自定义组件-->
+    <script type="text/x-template" id="item-template">
+        <li>
+            <div :class="{bold: isFolder}" @click="toggle" @dblclick="changeType">
+                {{model.name}}
+                <span v-if="isFolder">[{{open ? '-' : '+'}}]</span>
+            </div>
+            <ul v-show="open" v-if="isFolder">
+                <item class="item" v-for="model in model.children" :model="model"></item>
+                <li class="add" @click="addChild">+</li>
+            </ul>
+        </li>
+    </script>
+
+
+    <script src="js/jquery.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="js/my tree.js"></script>
+</body>
+</html>

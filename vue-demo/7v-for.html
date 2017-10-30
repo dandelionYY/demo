@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>7 v-for </title>
+
+    <script src="js/jquery.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="js/7v-for.js"></script>
+
+</head>
+<body>
+    <ul id="EMS-list">
+        <li v-for="item in ems">
+            <form>
+                <div>
+                    收件人：
+                    <input type="text"  name="name" v-model="item.name"/>
+                </div>
+                <div>
+                    收件单位：
+                    <input type="text"  name="companyName" v-model="item.companyName"/>
+                </div>
+                <div>
+                    联系电话：
+                    <input type="text"  name="telephone" v-model="item.telephone"/>
+                </div>
+                <div>
+                    邮编：
+                    <input type="text"  name="zip" v-model="item.zip"/>
+                </div>
+                <div>
+                    地址：
+                    <input type="text"  name="address" v-model="item.address"/>
+                </div>
+                <div>
+                    备注：
+                    <span>{{item.remark}}</span>
+                </div>
+            </form>
+        </li>
+    </ul>
+
+
+    <!--ul id="example-1">
+        <li v-for="item in items">
+            {{ item.message }}
+        </li>
+    </ul>-->
+
+</body>
+
+
+
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>checkbox</title>
+
+    <style type="text/css">
+        .selected {
+            background-color: darkblue;
+            color: white;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            var vm = new Vue({
+                el:"#bd",
+                data:{
+                    list:["草稿","完成"],
+
+                },
+                methods:{
+                    selectStatusClass:function () {
+                        /*if(this.list == "草稿"){
+                            return {selected:true};
+                        }else{
+                            return {selected:false};
+                        }*/
+                        if(this.list == "草稿"){
+                            return {selected:true};
+                        }
+
+
+                    }
+                }
+
+            })
+
+
+
+
+
+
+
+
+        });
+    </script>
+
+</head>
+<body>
+
+
+    <div id="bd">
+        <label :class="selectStatusClass" @change="selectStatusClass"><input type="checkbox" v-model="list" value="草稿" />草稿</label>
+        <label :class="selectStatusClass" @change="selectStatusClass"><input type="checkbox" v-model="list" value="完成" />完成</label>
+    </div>
+
+
+
+</body>
+</html>
