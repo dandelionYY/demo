@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>random Email</title>
+
+    <style>
+        ul.demo{
+            list-style: none;
+        }
+    </style>
+
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://mockjs.com/dist/mock.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Mock.mock('yyl', {   // 地址任意：可以是 URL 字符串或 URL 正则；
+                'result|10': [{
+                    'id|+1': 1,
+                    'email': '@EMAIL',
+                    'name':'@STRING'
+                }]
+            });
+
+            //function sendData(url){
+                $.ajax({
+                    url: 'yyl',
+                    dataType: 'json',
+                    success: function(data, status, jqXHR) {
+                        var content = "";
+                        if(data !=null){
+                            for(i=0;i<data.result.length;i++){
+                                content +='<li>\
+                                                <span>'+data.result[i].id+'、'+data.result[i].name+'的邮箱是：'+data.result[i].email+'</span>\
+                                           </li>';
+                            }
+                            $(".demo").html(content);
+                        }
+                    }
+                });
+            //}
+            //sendData('yyl');
+
+        });
+    </script>
+
+</head>
+<body>
+
+    <span>显示邮箱列表：<span>
+	<ul class="demo"></ul>
+
+</body>
+</html>

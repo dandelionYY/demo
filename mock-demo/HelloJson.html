@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Hello Json</title>
+
+    <script src="http://libs.baidu.com/jquery/1.9.0/jquery.min.js"></script>
+    <script src="http://mockjs.com/dist/mock.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            Mock.mock(/\.json/, {    //.json文件：需要拦截的 URL；
+                'list|1-10': [{      //数据模板
+                    'id|+1': 1,
+                    'email': '@EMAIL',
+                    'regexp3': /\d{5,10}/
+                }]
+            });
+
+            function sendData(url) {
+                $.ajax({
+                    url: url,
+                    dataType: 'json'
+                }).done(function(data, status, jqXHR) {
+                    //console.log(data);
+
+                    //获得mock数据模板中的数据，打印到body上
+                    $('<pre>').text(JSON.stringify(data, null, 4)).appendTo('body');
+                })
+            }
+            sendData("hello.json");
+            //sendData("Hello.json");
+            //sendData("dyz.html");
+
+        });
+    </script>
+
+
+</head>
+<body>
+
+
+
+</body>
+</html>
