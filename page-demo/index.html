@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Page Demo</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="mock.js"></script>
+</head>
+
+<body>
+    <table id="gridData">
+        <tr>
+            <td>名字</td>
+            <td>邮件</td>
+        </tr>
+        <tr v-for="person in pageContent.content">
+            <td>{{person.name}}</td>
+            <td>{{person.email}}</td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <span v-if="! pageContent.first"><a href="#" @click="gotoPage(pageContent.number-1)">上一页</a></span>
+                <span v-for="(page,index) in getPageList()"><a href="#" @click="gotoPage(index)">{{page}}</a></span>
+                <span v-if="! pageContent.last"><a href="#" @click="gotoPage(pageContent.number+1)">下一页</a></span>
+
+                <span><a href="#" @click="gotoPage(0)">FIRST PAGE</a></span>
+            </td>
+        </tr>
+    </table>
+
+
+    <script type="text/javascript">
+        function mockRequest() {
+            var personList = [];
+            for (var i = 0; i < 8; i++) {
+                personList[i] = Mock.mock({
+                    "name": '@CNAME',
+                    "email": '@EMAIL'
+                });
+            }
+            for (var p = 0; p < 3; p++) {
+                Mock.mock("/digitaldata/admin/preserved/getList?page=" + p + "&size=3", {
+                    "totalPages": 3,
+                    "totalElements": 8,
+                    "number": p, // 当前页，基于0？
+                    "size": 3, // 每页的元素数量
+                    "first": function() {
+                        return this.number == 0
+                    },
+                    "last": function() {
+                        return this.number == (this.totalPages - 1)
+                    },
+                    "numberOfElements": function() {
+                        if (this.last) return this.totalElements % this.size;
+                        else return this.size;
+                    }, // 当前页的元素数量
+                    "content": function() {
+                        var start = this.number * this.size;
+                        var end = start + this.size;
+                        return personList.slice(start, end);
+                    },
+                    "sort": {},
+                });
+
+
+            }
+        }
+
+        mockRequest();
+
+        var vueApp = new Vue({
+            el: '#gridData',
+            data: {
+                pageContent: {
+                    totalPages: 3,
+                    totalElements: 8,
+                    number: 0, // 当前页，基于0？
+                    size: 3, // 每页的元素数量
+                    first: true,
+                    last: false,
+                    numberOfElements: 3, // 当前页的元素数量
+                    content: [{
+                        name: "Person Name",
+                        email: "someone@email.com"
+                    }],
+                    sort: {},
+                },
+                url: "/digitaldata/admin/preserved/getList",
+                pageSize: 3,
+            },
+            methods: {
+                // spring boot 中的pageable根据page、 size和sort来构造。
+                // 所以带上 page=0&size=10的查询参数就表示：查找第一页每页最多显示10项。
+                gotoPage: function(page) {
+                    var pageUrl = this.url + "?page=" + page + "&size=" + this.pageSize;
+                    $.getJSON(pageUrl, function(data) {
+                        vueApp.pageContent = data;
+                    });
+                },
+                getPageList: function() {
+                    var list = [this.pageContent.totalPages];
+                    for (var i = 0; i < this.pageContent.totalPages; i++) {
+                        list[i] = i + 1;
+                    }
+                    return list;
+                }
+            }
+        });
+
+        vueApp.gotoPage(0);
+    </script>
+</body>
+
+</html>

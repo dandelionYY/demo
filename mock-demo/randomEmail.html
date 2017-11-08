@@ -20,7 +20,10 @@
                 'result|10': [{
                     'id|+1': 1,
                     'email': '@EMAIL',
-                    'name':'@STRING'
+                    //'name':'@STRING'
+                    //'name':Mock.Random.cname()
+                    'name':'@CNAME',
+                    'date':'@DATE'
                 }]
             });
 
@@ -29,6 +32,7 @@
                     url: 'yyl',
                     dataType: 'json',
                     success: function(data, status, jqXHR) {
+                        console.log(data);
                         var content = "";
                         if(data !=null){
                             for(i=0;i<data.result.length;i++){
